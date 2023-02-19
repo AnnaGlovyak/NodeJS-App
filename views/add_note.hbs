@@ -1,0 +1,49 @@
+<div class="container">
+    <form id="myForm">
+        <div class="form_item">
+            <label>Owner of note:</label>
+            <input type="text" id="owner" name="owner">
+        </div>
+
+        <div class="form_item">
+            <label>Title of the note:</label>
+            <input type="text" id="title" name="title">
+        </div>
+
+        <div class="form_item">
+            <label>Message:</label>
+            <textarea id="message" name="message"></textarea>
+        </div>
+        <button type="submit"> Add note </button>
+    </form>
+
+</div>
+
+<script>
+    const form = document.getElementById('myForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const owner = document.getElementById('owner').value;
+        console.log("owner", owner);
+        const title = document.getElementById('title').value;
+        const message = document.getElementById('message').value;
+
+        const jsonData = {
+            owner,
+            title,
+            message
+        };
+
+        const response = fetch('/api/add_note', {
+            method: "POST",
+            body: JSON.stringify(jsonData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        response.then(result => {
+            window.location.href = '/';
+        }).catch(err => alert(err))
+    })
+</script>
