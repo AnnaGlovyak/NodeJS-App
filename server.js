@@ -26,7 +26,21 @@ const jsonPaser = bodyParser.json();
 
 //GET
 app.get('/', (req, res) => {
-    res.render('home');
+    
+    fetch('http://localhost:3004/messages', {
+        method: "GET", headers: {
+        'Content-Type': 'application/json'
+    }})
+    .then(response => {
+        response.json().then(json => {
+            res.render('home', {
+               articles: json
+            })
+        })
+    })
+    .catch(error => {
+        console.log(error);
+    })
 });
 
 app.get('/add_note', (req, res) => {
