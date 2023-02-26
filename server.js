@@ -61,6 +61,18 @@ app.post('/api/add_note', jsonPaser, (req, res) => {
     })
 })
 
+//DELETE
+app.delete('/api/delete/:id', (req, res) => {
+
+    const id = req.params.id;
+    fetch(`http://localhost:3004/messages/${id}`, {
+        method: 'DELETE',
+    }).then(() => {
+        res.status(200).send();
+    })
+    
+})
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server up on port ${port}`)
