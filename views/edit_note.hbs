@@ -1,0 +1,53 @@
+<div class="container">
+    <form id="myForm" data-id="{{articles.id}}">
+        <div class="form_item">
+            <label>Owner of note:</label>
+            <input type="text" id="owner" name="owner" value="{{articles.owner}}">
+        </div>
+
+        <div class="form_item">
+            <label>Title of the note:</label>
+            <input type="text" id="title" name="title" value="{{articles.title}}">
+        </div>
+
+        <div class="form_item">
+            <label>Message:</label>
+            <textarea id="message" name="message">
+                {{articles.message}}
+            </textarea>
+        </div>
+        <button type="submit"> Edit note </button>
+    </form>
+
+</div>
+
+<script>
+    const form = document.getElementById('myForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = e.target.dataset.id;
+        console.log("ID", id);
+        const owner = document.getElementById('owner').value;
+        console.log("owner", owner);
+        const title = document.getElementById('title').value;
+        const message = document.getElementById('message').value;
+
+        const jsonData = {
+            owner,
+            title,
+            message
+        };
+
+        const response = fetch(`/api/edit_note/${id}`, {
+            method: "PATCH",
+            body: JSON.stringify(jsonData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        response.then(result => {
+            window.location.href = '/';
+        }).catch(err => alert(err))
+    })
+</script>

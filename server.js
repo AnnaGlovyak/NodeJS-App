@@ -47,6 +47,17 @@ app.get('/add_note', (req, res) => {
     res.render('add_note');
 })
 
+app.get('/edit_note/:id', (req, res) => {
+    fetch(`http://localhost:3004/messages/${req.params.id}`)
+    .then(response => {
+        response.json().then(json => {
+            res.render('edit_note', {
+                articles: json
+            })
+        })
+    })
+})
+
 //POST
 app.post('/api/add_note', jsonPaser, (req, res) => {
     
@@ -71,6 +82,20 @@ app.delete('/api/delete/:id', (req, res) => {
         res.status(200).send();
     })
     
+})
+
+//UPDATE
+app.patch('/api/edit_note/:id', jsonPaser, (req, res) => {
+
+    fetch(`http://localhost:3004/messages/${req.params.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(req.body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        res.status(200).send();
+    })
 })
 
 const port = process.env.PORT || 3000;
